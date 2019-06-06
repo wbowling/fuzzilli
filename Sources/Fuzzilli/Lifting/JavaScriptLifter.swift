@@ -198,7 +198,16 @@ public class JavaScriptLifter: ComponentBase, Lifter {
                 output = BinaryExpression.new() <> input(0) <> " in " <> input(1)
                 
             case let op as BeginFunctionDefinition:
-                let params = instr.innerOutputs.map({ $0.identifier }).joined(separator: ",")
+                var identifiers = instr.innerOutputs.dropLast(1).map({ $0.identifier });
+                for v in instr.innerOutputs.dropFirst(identifiers.count) {
+                    if(op.hasRestParam) {
+                        identifiers.append("..." + v.identifier)
+                    } else {
+                        identifiers.append(v.identifier)
+                    }
+                }
+
+                let params = identifiers.joined(separator: ",")
                 w.emit("function \(instr.output)(\(params)) {")
                 w.increaseIndentionLevel()
                 if (op.isJSStrictMode) {

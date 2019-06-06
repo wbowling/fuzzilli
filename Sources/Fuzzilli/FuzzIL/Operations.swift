@@ -264,9 +264,11 @@ class In: Operation {
 class BeginFunctionDefinition: Operation {
     // Not mutatable, for now
     let isJSStrictMode: Bool
+    let hasRestParam: Bool
     
-    init(numParameters: Int, isJSStrictMode: Bool) {
+    init(numParameters: Int, isJSStrictMode: Bool, hasRestParam: Bool) {
         self.isJSStrictMode = isJSStrictMode
+        self.hasRestParam = hasRestParam
         super.init(numInputs: 0, numOutputs: 1, numInnerOutputs: numParameters, attributes: [.isBlockBegin])
     }
 }
