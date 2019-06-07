@@ -371,13 +371,14 @@ public enum BinaryOperator: String {
     case Xor      = "^"
     case LShift   = "<<"
     case RShift   = ">>"
+    case Exp      = "**"
     
     var token: String {
         return self.rawValue
     }
 }
 
-let allBinaryOperators: [BinaryOperator] = [.Add, .Sub, .Mul, .Div, .Mod, .BitAnd, .BitOr, .LogicAnd, .LogicOr, .LShift, .RShift]
+let allBinaryOperators: [BinaryOperator] = [.Add, .Sub, .Mul, .Div, .Mod, .BitAnd, .BitOr, .LogicAnd, .LogicOr, .LShift, .RShift, .Exp]
 
 class BinaryOperation: Operation {
     let op: BinaryOperator
