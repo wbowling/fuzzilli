@@ -46,6 +46,7 @@ let jscProfile = Profile(
                        "--thresholdForFTLOptimizeSoon=1000",
                        // This might catch some memory corruption that would otherwise stay undetected
                        "--gcAtEnd=true",
+                       "--useBigInt=true",
                        // Our client-side REPRL implementation currently requires a dummy filename
                        "fuzzcode.js"],
     
