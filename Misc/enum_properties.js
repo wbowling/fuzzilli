@@ -16,7 +16,7 @@
 // Enumerate and print the names of properties and methods on the builtin objects.
 ///
 
-var builtins = ["Object", "Function", "Array", "Number", "Boolean", "String", "Symbol", /*"Date",*/ "Promise", "RegExp", "Error", "ArrayBuffer", "Uint8Array", "Int8Array", "Uint16Array", "Int16Array", "Uint32Array", "Int32Array", "Float32Array", "Float64Array", "Uint8ClampedArray", "DataView", "Map", "Set", "WeakMap", "WeakSet", "Proxy", "Reflect", /*"JSON",*/ "Math", /*"escape", "unescape",*/]
+var builtins = ["Object", "Function", "Array", "Number", "Boolean", "String", "Symbol", /*"Date",*/ "Promise", "RegExp", "Error", "ArrayBuffer", "Uint8Array", "Int8Array", "Uint16Array", "Int16Array", "Uint32Array", "Int32Array", "Float32Array", "Float64Array", "Uint8ClampedArray", "DataView", "Map", "Set", "WeakMap", "WeakSet", "Proxy", "Reflect", /*"JSON",*/ "Math", /*"escape", "unescape",*/ "WebAssembly", "WebAssembly.CompileError", "WebAssembly.Instance", "WebAssembly.LinkError", "WebAssembly.Memory", "WebAssembly.Module", "WebAssembly.RuntimeError", "WebAssembly.Table"]
 
 var allPropertyNames = "";
 var allMethodNames = "";
@@ -32,7 +32,7 @@ function enumerate(obj, name, followPrototypeChain) {
             try {
                 prop = obj[p];
             } catch (e) { continue; }
-            if (typeof(prop) === 'function' && !methodNames.has(p)) {
+            if (typeof (prop) === 'function' && !methodNames.has(p)) {
                 allMethodNames += '"' + p + '", ';
                 methodNames.add(p);
             }
@@ -53,18 +53,21 @@ function enumerate(obj, name, followPrototypeChain) {
 
 // Properties of the builtins
 for (name of builtins) {
-    var builtin = this[name];
+    var builtin = name.split('.').reduce((p, c) => p && p[c] || null, this)
+    // var builtin = this[name];
     enumerate(builtin, name);
 }
 
 // Properties of the builtin prototypes
 for (name of builtins) {
-    var builtin = this[name];
+    var builtin = name.split('.').reduce((p, c) => p && p[c] || null, this)
+    // var builtin = this[name];
     if (!builtin.hasOwnProperty('prototype'))
         continue
 
     enumerate(builtin.prototype, name + '.prototype', true);
 }
 
-print(allPropertyNames);
-print(allMethodNames);
+print("allPropertyNames", allPropertyNames);
+print("")
+print("allMethodNames", allMethodNames);
