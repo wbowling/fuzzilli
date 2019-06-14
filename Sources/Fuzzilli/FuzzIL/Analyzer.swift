@@ -131,7 +131,8 @@ struct TypeAnalyzer: Analyzer {
             types[instr.output] = .Boolean
         case is LoadFromScope:
             types[instr.output] = .Unknown
-        case is BeginFunctionDefinition:
+        case is BeginFunctionDefinition,
+             is BeginArrowFunction:
             types[instr.output] = .Function
             for param in instr.innerOutputs {
                 types[param] = .Unknown
@@ -215,11 +216,12 @@ struct ContextAnalyzer: Analyzer {
     mutating func analyze(_ instr: Instruction) {
         if instr.isLoopEnd ||
             instr.operation is EndFunctionDefinition ||
+            instr.operation is EndArrowFunction ||
             instr.operation is EndWith {
             _ = contextStack.popLast()
         } else if instr.isLoopBegin {
             contextStack.append([context, .inLoop])
-        } else if instr.operation is BeginFunctionDefinition {
+        } else if instr.operation is BeginFunctionDefinition || instr.operation is BeginArrowFunction {
             // Not in a loop or with statement anymore.
             let newContext = context.subtracting([.inLoop, .inWith]).union(.inFunction)
             contextStack.append(newContext)

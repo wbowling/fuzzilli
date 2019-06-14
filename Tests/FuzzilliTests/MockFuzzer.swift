@@ -129,6 +129,7 @@ fileprivate let testCodeGenerators = WeightedList<CodeGenerator>([
     (ObjectLiteralWithSpreadGenerator,   1),
     (ArrayLiteralWithSpreadGenerator,    1),
     (FunctionDefinitionGenerator,        1),
+    (ArrowFunctionGenerator,             1),
     (FunctionReturnGenerator,            1),
     (PropertyRetrievalGenerator,         1),
     (PropertyAssignmentGenerator,        1),

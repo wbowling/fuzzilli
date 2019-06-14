@@ -414,6 +414,13 @@ public class ProgramBuilder {
         return instruction.output
     }
     
+    @discardableResult
+    public func defineArrowFunction(numParameters: Int, _ body: ([Variable]) -> ()) -> Variable {
+        let instruction = perform(BeginArrowFunction(numParameters: numParameters))
+        body(Array(instruction.innerOutputs))
+        perform(EndArrowFunction())
+        return instruction.output
+    }
     public func doReturn(value: Variable) {
         perform(Return(), withInputs: [value])
     }

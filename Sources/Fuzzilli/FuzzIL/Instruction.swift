@@ -307,6 +307,8 @@ public struct Instruction: Codable {
              is StoreComputedProperty,
              is DeleteComputedProperty,
              is EndFunctionDefinition,
+             is BeginArrowFunction,
+             is EndArrowFunction,
              is TypeOf,
              is InstanceOf,
              is In,
@@ -420,6 +422,10 @@ public struct Instruction: Codable {
             self.operation = Return()
         case EndFunctionDefinition.name:
             self.operation = EndFunctionDefinition()
+        case BeginArrowFunction.name:
+            self.operation = BeginArrowFunction(numParameters: inouts.count - 1)
+        case EndArrowFunction.name:
+            self.operation = EndArrowFunction()
         case CallMethod.name:
             self.operation = CallMethod(methodName: try container.decode(String.self, forKey: .opData1), numArguments: inouts.count - 2)
         case CallFunction.name:

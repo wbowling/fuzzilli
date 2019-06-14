@@ -29,6 +29,7 @@ let defaultCodeGenerators = WeightedList<CodeGenerator>([
     (ObjectLiteralWithSpreadGenerator,   5),
     (ArrayLiteralWithSpreadGenerator,    5),
     (FunctionDefinitionGenerator,        15),
+    (ArrowFunctionGenerator,             10),
     (FunctionReturnGenerator,            3),
     (PropertyRetrievalGenerator,         20),
     (PropertyAssignmentGenerator,        20),

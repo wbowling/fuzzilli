@@ -220,7 +220,16 @@ public class JavaScriptLifter: ComponentBase, Lifter {
             case is EndFunctionDefinition:
                 w.decreaseIndentionLevel()
                 w.emit("}")
+
+            case is BeginArrowFunction:
+                let params = instr.innerOutputs.map({ $0.identifier }).joined(separator: ",")
+                w.emit("\(constDecl) \(instr.output) = (\(params)) => {")
+                w.increaseIndentionLevel()
                 
+            case is EndArrowFunction:
+                w.decreaseIndentionLevel()
+                w.emit("}")
+
             case is CallFunction:
                 let arguments = instr.inputs.dropFirst().map({ expr(for: $0).text })
                 output = CallExpression.new() <> input(0) <> "(" <> arguments.joined(separator: ",") <> ")"

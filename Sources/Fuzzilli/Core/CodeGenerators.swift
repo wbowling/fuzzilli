@@ -98,6 +98,13 @@ public func FunctionDefinitionGenerator(_ b: ProgramBuilder) {
     }
 }
 
+public func ArrowFunctionGenerator(_ b: ProgramBuilder) {
+    b.defineArrowFunction(numParameters: Int.random(in: 1...5)) { _ in
+        b.generate()
+        b.doReturn(value: b.randVar())
+    }
+}
+
 public func PropertyRetrievalGenerator(_ b: ProgramBuilder) {
     let object = b.randVar(ofType: .MaybeObject)
     let propertyName = b.genPropertyName()

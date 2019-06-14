@@ -285,6 +285,19 @@ class EndFunctionDefinition: Operation {
     }
 }
 
+class BeginArrowFunction: Operation {
+    init(numParameters: Int) {
+        super.init(numInputs: 0, numOutputs: 1, numInnerOutputs: numParameters, attributes: [.isBlockBegin])
+    }
+}
+
+class EndArrowFunction: Operation {
+    init() {
+        super.init(numInputs: 0, numOutputs: 0, attributes: [.isBlockEnd])
+    }
+}
+
+
 class CallMethod: Operation {
     let methodName: String
     var numArguments: Int {
@@ -660,6 +673,8 @@ func Matches(_ op1: Operation, _ op2: Operation) -> Bool {
     switch op1 {
     case is BeginFunctionDefinition:
         return op2 is EndFunctionDefinition
+    case is BeginArrowFunction:
+        return op2 is EndArrowFunction
     case is BeginWith:
         return op2 is EndWith
     case is BeginIf:
